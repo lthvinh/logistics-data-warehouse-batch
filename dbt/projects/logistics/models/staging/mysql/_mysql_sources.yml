@@ -1,0 +1,9 @@
+sources:
+  - name: raw
+    schema: logistics
+    tables:
+      - name: logistics_src.logistics.Drivers
+      - name: logistics_src.logistics.Orders
+      - name: logistics_src.logistics.Payments
+      - name: logistics_src.logistics.Shipments
+      - name: logistics_src.logistics.Users
