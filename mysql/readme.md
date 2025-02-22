@@ -1,12 +1,12 @@
-# 📄 MySQL Schema - Logistics Database
+# 📝 MySQL Schema - Logistics Database
 
-## 📖 Giới thiệu
+## 📚 Giới thiệu
 Schema này chứa cấu trúc dữ liệu của **Logistics Database**. Dữ liệu từ MySQL được trích xuất bằng **Debezium MySQL Connector** thông qua **Kafka Connect** và lưu trữ trên **HDFS** & **ClickHouse** để xử lý.
 
 ---
 
 ## 🔗 MySQL CDC với Kafka Connect (Debezium)
-Để ingest dữ liệu từ MySQL bằng **Kafka UI**, làm theo các bước sau:
+👉 **Cách ingest dữ liệu từ MySQL bằng Kafka UI:**
 
 ### 1️⃣ Truy cập Kafka UI
 - Mở trình duyệt và truy cập **Kafka UI** (ví dụ: `http://localhost:9090`).
@@ -14,10 +14,9 @@ Schema này chứa cấu trúc dữ liệu của **Logistics Database**. Dữ li
 
 ### 2️⃣ Tạo Connector Mới
 - Nhấn vào **Create Connector**.
-- Chọn **Debezium MySQL Connector**.
 
 ### 3️⃣ Cấu Hình Connector
-- Sao chép cấu hình dưới đây vào Kafka UI:
+- Sao chép cáu hình dưới đây vào Kafka UI:
 
 ```json
 {
@@ -39,13 +38,18 @@ Schema này chứa cấu trúc dữ liệu của **Logistics Database**. Dữ li
   "include.schema.changes": "false",
   "schema.history.internal.kafka.topic": "schema-changes.logistics"
 }
+```
 
-## 📂 Schema Chi Tiết
+### 4️⃣ Lưu và Khởi Chạy
+- Nhấn **Submit**.
+- Kiểm tra trạng thái connector trong Kafka UI để đảm bảo nó hoạt động bình thường.
 
+---
+
+## 📂 Schema MySQL Logistics
+
+### 1. Bảng `Users` - Quản lý người dùng
 ```sql
-DROP DATABASE IF EXISTS logistics;
-CREATE DATABASE logistics;
-
 CREATE TABLE Users (
     user_id INT PRIMARY KEY AUTO_INCREMENT,
     full_name VARCHAR(255) NOT NULL,
@@ -56,7 +60,12 @@ CREATE TABLE Users (
     role ENUM('user', 'driver') NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+```
+- Quản lý người dùng của hệ thống.
+- `role`: Phân loại giữa **user** (khách hàng) và **driver** (tài xế).
 
+### 2. Bảng `Drivers` - Quản lý tài xế
+```sql
 CREATE TABLE Drivers (
     driver_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT UNIQUE,
@@ -65,7 +74,11 @@ CREATE TABLE Drivers (
     vehicle_year INT,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+```
+- Liên kết với `Users`, chỉ các user là **driver** mới có thông tin trong bảng này.
 
+### 3. Bảng `Orders` - Quản lý đơn hàng
+```sql
 CREATE TABLE Orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
@@ -78,7 +91,12 @@ CREATE TABLE Orders (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+```
+- Quản lý các đơn hàng từ **khách hàng**.
+- `status`: Trạng thái giao hàng (**processing -> accepted -> in_transit -> delivered**).
 
+### 4. Bảng `Shipments` - Quản lý giao hàng
+```sql
 CREATE TABLE Shipments (
     shipment_id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
@@ -89,7 +107,12 @@ CREATE TABLE Shipments (
     FOREIGN KEY (order_id) REFERENCES Orders(order_id),
     FOREIGN KEY (driver_id) REFERENCES Drivers(driver_id)
 );
+```
+- Quản lý quá trình giao hàng.
+- Liên kết với **Orders** và **Drivers**.
 
+### 5. Bảng `Payments` - Quản lý thanh toán
+```sql
 CREATE TABLE Payments (
     payment_id INT PRIMARY KEY AUTO_INCREMENT,
     order_id INT,
@@ -99,7 +122,11 @@ CREATE TABLE Payments (
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (order_id) REFERENCES Orders(order_id)
 );
+```
+- Ghi nhận thông tin thanh toán các đơn hàng.
 
+### 6. Bảng `Notifications` - Quản lý thông báo
+```sql
 CREATE TABLE Notifications (
     notification_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
@@ -107,3 +134,6 @@ CREATE TABLE Notifications (
     notification_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
+```
+- Lưu thông tin thông báo gửi đến người dùng.
+
