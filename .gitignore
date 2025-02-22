@@ -1,5 +1,6 @@
 
 mysql-storage/
+mysql/data/DW_Logistics_Temp.sql
 queries/
 logs/
 livy/
