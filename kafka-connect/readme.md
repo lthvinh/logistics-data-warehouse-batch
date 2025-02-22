@@ -1,4 +1,4 @@
-# 🚛 Logistics Data Pipeline
+# Kafka Connect
 
 ## 📖 Giới thiệu
 Tài liệu này mô tả hệ thống xử lý dữ liệu **Logistics Database** sử dụng **Kafka Connect** để ingest dữ liệu từ **MySQL** và lưu trữ trên **HDFS** & **ClickHouse**. Dữ liệu được trích xuất thông qua **Debezium MySQL Connector** và lưu vào sink bằng các sink connectors.
