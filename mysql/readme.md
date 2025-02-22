@@ -1,9 +1,44 @@
 # 📄 MySQL Schema - Logistics Database
 
 ## 📖 Giới thiệu
-Schema này chứa cấu trúc dữ liệu của **Logistics Database**. Dữ liệu từ MySQL sẽ được trích xuất qua **Kafka Connect CDC** và lưu trữ trên **HDFS** & **ClickHouse** để xử lý.
+Schema này chứa cấu trúc dữ liệu của **Logistics Database**. Dữ liệu từ MySQL được trích xuất bằng **Debezium MySQL Connector** thông qua **Kafka Connect** và lưu trữ trên **HDFS** & **ClickHouse** để xử lý.
 
 ---
+
+## 🔗 MySQL CDC với Kafka Connect (Debezium)
+Để ingest dữ liệu từ MySQL bằng **Kafka UI**, làm theo các bước sau:
+
+### 1️⃣ Truy cập Kafka UI
+- Mở trình duyệt và truy cập **Kafka UI** (ví dụ: `http://localhost:9090`).
+- Điều hướng đến mục **Connectors**.
+
+### 2️⃣ Tạo Connector Mới
+- Nhấn vào **Create Connector**.
+- Chọn **Debezium MySQL Connector**.
+
+### 3️⃣ Cấu Hình Connector
+- Sao chép cấu hình dưới đây vào Kafka UI:
+
+```json
+{
+  "connector.class": "io.debezium.connector.mysql.MySqlConnector",
+  "tasks.max": "1",
+  "database.hostname": "mysql",
+  "database.port": "3306",
+  "database.server.id": "1",
+  "database.user": "root",
+  "database.password": "Vinh@123456",
+  "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
+  "topic.prefix": "logistics_src",
+  "key.converter": "io.confluent.connect.avro.AvroConverter",
+  "key.converter.schema.registry.url": "http://kafka-schema-registry:8081",
+  "value.converter": "io.confluent.connect.avro.AvroConverter",
+  "value.converter.schema.registry.url": "http://kafka-schema-registry:8081",
+  "database.include.list": "logistics",
+  "table.include.list": "logistics.Users,logistics.Orders,logistics.Drivers,logistics.Payments,logistics.Shipments",
+  "include.schema.changes": "false",
+  "schema.history.internal.kafka.topic": "schema-changes.logistics"
+}
 
 ## 📂 Schema Chi Tiết
 
