@@ -1,6 +1,6 @@
-
 mysql-storage/
 mysql/data/DW_Logistics_Temp.sql
+kafka-connect/connector_configuration/*Copy*
 queries/
 logs/
 livy/
