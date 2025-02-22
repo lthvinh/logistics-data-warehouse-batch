@@ -1,0 +1,7 @@
+apache-airflow-providers-apache-spark==5.0.0
+grpcio-status==1.59.0
+pyspark==3.5.4
+delta-spark==3.3.0
+pendulum==3.0.0
+PyYAML==6.0.2
+dbt-clickhouse==1.8.9

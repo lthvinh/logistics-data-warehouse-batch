@@ -1,0 +1,20 @@
+logistics:
+  target: clickhouse
+  outputs:
+    clickhouse:
+      type: clickhouse
+      schema: logistics
+      host: localhost
+      port: 8123
+      user: vinh
+      password: Vinh@123456
+      secure: False
+
+    airflow:
+      type: clickhouse
+      schema: logistics
+      host: clickhouse
+      port: 8123
+      user: vinh
+      password: Vinh@123456
+      secure: False

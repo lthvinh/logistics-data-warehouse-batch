@@ -1,0 +1,43 @@
+data_lake:
+    raw:
+        base_path: "/raw/transactional/mysql/logistics/topics"
+        format: "avro"
+    enriched:
+        base_path: "/enriched/transactional/mysql/logistics"
+        mode: "overwrite"
+        format: "parquet"
+        partition_columns:
+            - "year"
+            - "month"
+            - "day"
+        compression: "snappy"
+        tables:
+            users:
+            drivers:
+            orders:
+            payments:
+            shipments:
+    curated:
+        dimension_base_path: "/curated/transactional/mysql/logistics/dimensions"
+        fact_base_path: "/curated/transactional/mysql/logistics/facts"
+        
+spark:
+    app_name: 'logistics_data_pipeline'
+    config:
+        #hdfs
+        spark.hadoop.fs.defaultFS: "hdfs://hdfs-namenode:9000/"
+        spark.sql.sources.partitionOverwriteMode: "dynamic"
+
+        #delta lake
+        spark.sql.extensions: "io.delta.sql.DeltaSparkSessionExtension"
+        spark.sql.catalog.spark_catalog: "org.apache.spark.sql.delta.catalog.DeltaCatalog"
+        
+    packages:
+        - "io.delta:delta-spark_2.12:3.3.0"
+        - "org.apache.spark:spark-avro_2.12:3.5.3"
+    
+logging:
+    name: 'logistics'
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    # base_path: "./logs"

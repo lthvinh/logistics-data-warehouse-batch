@@ -1,0 +1,8 @@
+
+mysql/
+queries/
+logs/
+livy/
+
+src/spark_dataframe_example.py
+src/logistics_project_v1/
