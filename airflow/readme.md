@@ -22,7 +22,7 @@ Thư mục **airflow** chứa cấu hình và mã nguồn cần thiết để tr
   - **spark_logistics_dag**: DAG này chịu trách nhiệm chạy các ứng dụng **Spark** (ví dụ: ingest, transform, load dữ liệu). Các job Spark này có thể được lên lịch để thực hiện ETL theo định kỳ.
 - **Mục đích**: Đảm bảo quá trình xử lý dữ liệu được tự động hóa, theo lịch và có thể giám sát qua giao diện của Airflow.
 
-### 3. requirements
+### 3. Requirements
 
 - **Mô tả**: Tệp `requirements.txt` chứa danh sách các thư viện Python cần thiết để chạy các DAGs và các script hỗ trợ trong Airflow.
 - **Mục đích**:
