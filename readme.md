@@ -1,8 +1,3 @@
-Dưới đây là README.md hoàn chỉnh đã được cập nhật, bao gồm cả hình ảnh schema của source, schema của Data Warehouse và luồng ETL. Mình giả định rằng bạn đã lưu các hình ảnh vào thư mục `docs/images/` với tên file tương ứng. Bạn có thể điều chỉnh đường dẫn nếu cần:
-
----
-
-```markdown
 # 📄 Logistics Data Warehouse
 
 ## 📖 Giới thiệu
