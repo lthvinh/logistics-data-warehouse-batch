@@ -28,9 +28,7 @@ with raw_data as (
     from
         transformed_raw
     where
-        -- toDate(event_datetime) = today()
-        -- toDate(event_datetime) = yesterday() 
-        toDate(event_datetime) = date_sub(today(), interval 2 days) 
+        toDate(event_datetime) = yesterday() 
 )
 
 select * from filtered_raw

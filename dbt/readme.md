@@ -1,4 +1,4 @@
-# 📄 DBT
+# 📄 DBT - Data build tool
 
 ## 📖 Giới thiệu
 Dữ liệu được trích xuất từ **MySQL** thông qua **Kafka Connect**, lưu trữ trên **ClickHouse** và được xử lý bởi **dbt**.
@@ -22,6 +22,21 @@ Thư mục `models/` chứa các tập hợp models giúp tổ chức các bản
 Thư mục `macros/` chứa các macro hỗ trợ trong dbt:
 - **Macro xử lý SCD Type 2** để theo dõi thay đổi dữ liệu lịch sử.
 - **Các Macro để hỗ trợ cho SCD type 2**.
+## 📦 Cài đặt Packages
+Dbt sử dụng một số packages để hỗ trợ quá trình xử lý dữ liệu:
+
+```yml
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 0.8.6
+  - package: calogica/dbt_expectations
+    version: 0.8.4
+```
+
+Cài đặt packages bằng lệnh sau:
+```bash
+dbt deps
+```
 
 ## 🚀 Cách chạy dbt
 ### 1️⃣ Kiểm tra kết nối
@@ -32,7 +47,7 @@ Thư mục `macros/` chứa các macro hỗ trợ trong dbt:
 ```bash
 dbt run --profiles-dir D:\hadoop\dbt\.dbt\
 ```
-### 3️⃣ Chạy riêng models SCD Type 2
+### 3️⃣ Chạy riêng một model
 ```bash
 dbt run --profiles-dir D:\hadoop\dbt\.dbt\ -s dim_users 
 ```
